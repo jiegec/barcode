@@ -9,7 +9,16 @@ const data = ref('9787111544937');
 const int_data = computed(() => {
   let res: number[] = [];
   for (let element of data.value) {
-    res.push(parseInt(element));
+    let val = parseInt(element);
+    if (isNaN(val)) {
+      break;
+    }
+    res.push(val);
+  }
+
+  // pad zeroes
+  while (res.length < 13) {
+    res.push(0);
   }
   return res;
 })
@@ -83,7 +92,7 @@ const r_mapping = [
     Step 1. Determine the encoding of the last 12 digits using the first digit:
   </div>
   <div>
-    The first digit is {{ data[0] }}, so the encoding of the last 12 digits are "{{ first_digit_mapping[int_data[0]] }}".
+    The first digit is {{ int_data[0] }}, so the encoding of the last 12 digits are "{{ first_digit_mapping[int_data[0]] }}".
   </div>
   <div>
     Step 2. Encode the last 12 digits using L/G/R-code:
@@ -118,7 +127,7 @@ const r_mapping = [
   <div>
     <Code v-for="i in Array(12).keys()"
       :code="first_digit_mapping[int_data[0]][i] === 'L' ? l_mapping[int_data[i + 1]] : (first_digit_mapping[int_data[0]][i] === 'G' ? g_mapping[int_data[i + 1]] : r_mapping[int_data[i + 1]])"
-      :text="data[i + 1].toString() + first_digit_mapping[int_data[0]][i]" :padding_left="true" :padding_right="true" />
+      :text="int_data[i + 1].toString() + first_digit_mapping[int_data[0]][i]" :padding_left="true" :padding_right="true" />
   </div>
   <div>
     Step 3. Add start(S)/center(C)/end(E) markers:
@@ -127,11 +136,11 @@ const r_mapping = [
     <Code code="101" text="S" height="180" :padding_left="true" />
     <Code v-for="i in [0, 1, 2, 3, 4, 5]"
       :code="first_digit_mapping[int_data[0]][i] === 'L' ? l_mapping[int_data[i + 1]] : (first_digit_mapping[int_data[0]][i] === 'G' ? g_mapping[int_data[i + 1]] : r_mapping[int_data[i + 1]])"
-      :text="data[i + 1].toString() + first_digit_mapping[int_data[0]][i]" />
+      :text="int_data[i + 1].toString() + first_digit_mapping[int_data[0]][i]" />
     <Code code="01010" text="C" height="180" />
     <Code v-for="i in [6, 7, 8, 9, 10, 11]"
       :code="first_digit_mapping[int_data[0]][i] === 'L' ? l_mapping[int_data[i + 1]] : (first_digit_mapping[int_data[0]][i] === 'G' ? g_mapping[int_data[i + 1]] : r_mapping[int_data[i + 1]])"
-      :text="data[i + 1].toString() + first_digit_mapping[int_data[0]][i]" />
+      :text="int_data[i + 1].toString() + first_digit_mapping[int_data[0]][i]" />
     <Code code="101" text="E" height="180" :padding_right="true" />
   </div>
   <div>
