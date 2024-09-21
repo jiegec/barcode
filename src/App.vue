@@ -65,7 +65,7 @@ const r_mapping = [
   <h1>EAN-13 Barcode Generator</h1>
   <div>
     Enter 13-digit number:
-    <input v-model="data"/>
+    <input v-model="data" />
   </div>
   <!-- https://en.wikipedia.org/wiki/International_Article_Number#Binary_encoding_of_data_digits_into_EAN-13_barcode -->
   <div>
@@ -84,19 +84,22 @@ const r_mapping = [
     L-code:
   </div>
   <div>
-    <Code v-for="i in Array(10).keys()" style="margin-left: 20px" :code="l_mapping[i]" :text="i.toString()" :padding_left="true" :padding_right="true" />
+    <Code v-for="i in Array(10).keys()" style="margin-left: 20px" :code="l_mapping[i]" :text="i.toString()"
+      :padding_left="true" :padding_right="true" />
   </div>
   <div>
     G-code:
   </div>
   <div>
-    <Code v-for="i in Array(10).keys()" style="margin-left: 20px" :code="g_mapping[i]" :text="i.toString()" :padding_left="true" :padding_right="true"  />
+    <Code v-for="i in Array(10).keys()" style="margin-left: 20px" :code="g_mapping[i]" :text="i.toString()"
+      :padding_left="true" :padding_right="true" />
   </div>
   <div>
     R-code:
   </div>
   <div>
-    <Code v-for="i in Array(10).keys()" style="margin-left: 20px" :code="r_mapping[i]" :text="i.toString()" :padding_left="true" :padding_right="true"  />
+    <Code v-for="i in Array(10).keys()" style="margin-left: 20px" :code="r_mapping[i]" :text="i.toString()"
+      :padding_left="true" :padding_right="true" />
   </div>
   <div>
     G-code and R-code are mirrored. L-code and R-code are complement.
@@ -105,16 +108,22 @@ const r_mapping = [
     Result:
   </div>
   <div>
-    <Code v-for="i in Array(12).keys()" :code="first_digit_mapping[data[0]][i] === 'L' ? l_mapping[data[i+1]] : (first_digit_mapping[data[0]][i] === 'G' ? g_mapping[data[i+1]] : r_mapping[data[i+1]])" :text="data[i+1].toString() + first_digit_mapping[data[0]][i]" :padding_left="true" :padding_right="true" />
+    <Code v-for="i in Array(12).keys()"
+      :code="first_digit_mapping[data[0]][i] === 'L' ? l_mapping[data[i + 1]] : (first_digit_mapping[data[0]][i] === 'G' ? g_mapping[data[i + 1]] : r_mapping[data[i + 1]])"
+      :text="data[i + 1].toString() + first_digit_mapping[data[0]][i]" :padding_left="true" :padding_right="true" />
   </div>
   <div>
     Step 3. Add start(S)/center(C)/end(E) markers:
   </div>
   <div>
     <Code code="101" text="S" height="180" :padding_left="true" />
-    <Code v-for="i in [0, 1, 2, 3, 4, 5]" :code="first_digit_mapping[data[0]][i] === 'L' ? l_mapping[data[i+1]] : (first_digit_mapping[data[0]][i] === 'G' ? g_mapping[data[i+1]] : r_mapping[data[i+1]])" :text="data[i+1].toString() + first_digit_mapping[data[0]][i]" />
+    <Code v-for="i in [0, 1, 2, 3, 4, 5]"
+      :code="first_digit_mapping[data[0]][i] === 'L' ? l_mapping[data[i + 1]] : (first_digit_mapping[data[0]][i] === 'G' ? g_mapping[data[i + 1]] : r_mapping[data[i + 1]])"
+      :text="data[i + 1].toString() + first_digit_mapping[data[0]][i]" />
     <Code code="01010" text="C" height="180" />
-    <Code v-for="i in [6, 7, 8, 9, 10, 11]" :code="first_digit_mapping[data[0]][i] === 'L' ? l_mapping[data[i+1]] : (first_digit_mapping[data[0]][i] === 'G' ? g_mapping[data[i+1]] : r_mapping[data[i+1]])" :text="data[i+1].toString() + first_digit_mapping[data[0]][i]" />
+    <Code v-for="i in [6, 7, 8, 9, 10, 11]"
+      :code="first_digit_mapping[data[0]][i] === 'L' ? l_mapping[data[i + 1]] : (first_digit_mapping[data[0]][i] === 'G' ? g_mapping[data[i + 1]] : r_mapping[data[i + 1]])"
+      :text="data[i + 1].toString() + first_digit_mapping[data[0]][i]" />
     <Code code="101" text="E" height="180" :padding_right="true" />
   </div>
 </template>
