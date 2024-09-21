@@ -126,4 +126,7 @@ const r_mapping = [
       :text="data[i + 1].toString() + first_digit_mapping[data[0]][i]" />
     <Code code="101" text="E" height="180" :padding_right="true" />
   </div>
+  <div>
+    Profit!
+  </div>
 </template>
