@@ -79,50 +79,57 @@ const r_mapping = [
 </script>
 
 <template>
-  <h1>EAN-13 Barcode Generator</h1>
+  <h1>{{ $t('title') }}</h1>
+  <form>
+    <label for="locale-select">{{ $t('language') }}</label>
+    <select id="locale-select" v-model="$i18n.locale">
+      <option value="en">English</option>
+      <option value="zh">简体中文</option>
+    </select>
+  </form>
   <div>
-    Enter 13-digit number:
+    {{ $t('input') }}
     <input v-model="data" />
   </div>
   <!-- https://en.wikipedia.org/wiki/International_Article_Number#Binary_encoding_of_data_digits_into_EAN-13_barcode -->
   <div>
-    Steps:
+    {{ $t('steps') }}
   </div>
   <div>
-    Step 1. Determine the encoding of the last 12 digits using the first digit:
+    {{ $t('step1') }}
   </div>
   <div>
-    The first digit is {{ int_data[0] }}, so the encoding of the last 12 digits are "{{ first_digit_mapping[int_data[0]] }}".
+    {{ $t('step1_detail', { first: int_data[0], encoding: first_digit_mapping[int_data[0]] }) }}
   </div>
   <div>
-    Step 2. Encode the last 12 digits using L/G/R-code:
+    {{ $t('step2') }}
   </div>
   <div>
-    L-code:
+    {{ $t('l_code') }}
   </div>
   <div>
     <Code v-for="i in Array(10).keys()" style="margin-left: 20px" :code="l_mapping[i]" :text="i.toString()"
       :padding_left="true" :padding_right="true" />
   </div>
   <div>
-    G-code:
+    {{ $t('g_code') }}
   </div>
   <div>
     <Code v-for="i in Array(10).keys()" style="margin-left: 20px" :code="g_mapping[i]" :text="i.toString()"
       :padding_left="true" :padding_right="true" />
   </div>
   <div>
-    R-code:
+    {{ $t('r_code') }}
   </div>
   <div>
     <Code v-for="i in Array(10).keys()" style="margin-left: 20px" :code="r_mapping[i]" :text="i.toString()"
       :padding_left="true" :padding_right="true" />
   </div>
   <div>
-    G-code and R-code are mirrored. L-code and R-code are complement.
+    {{ $t('code_desc') }}
   </div>
   <div>
-    Result:
+    {{ $t('result') }}
   </div>
   <div>
     <Code v-for="i in Array(12).keys()"
@@ -130,7 +137,7 @@ const r_mapping = [
       :text="int_data[i + 1].toString() + first_digit_mapping[int_data[0]][i]" :padding_left="true" :padding_right="true" />
   </div>
   <div>
-    Step 3. Add start(S)/center(C)/end(E) markers:
+    {{ $t('step3') }}
   </div>
   <div>
     <Code code="101" text="S" height="180" :padding_left="true" />
@@ -144,6 +151,6 @@ const r_mapping = [
     <Code code="101" text="E" height="180" :padding_right="true" />
   </div>
   <div>
-    Profit!
+    {{ $t('profit') }}
   </div>
 </template>
