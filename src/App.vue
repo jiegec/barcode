@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Code from './components/Code.vue'
+import Code from '@/components/Code.vue'
 import { ref, computed } from 'vue'
 
 // 13-digit data
@@ -76,6 +76,21 @@ const r_mapping = [
   '1110100'
 ];
 
+const first_digit = computed(() => int_data.value[0]!);
+const encoding = computed(() => first_digit_mapping[first_digit.value]!);
+
+function code_at(i: number): string {
+  const kind = encoding.value[i]!;
+  const digit = int_data.value[i + 1]!;
+  if (kind === 'L') return l_mapping[digit]!;
+  if (kind === 'G') return g_mapping[digit]!;
+  return r_mapping[digit]!;
+}
+
+function text_at(i: number): string {
+  return int_data.value[i + 1]!.toString() + encoding.value[i]!;
+}
+
 </script>
 
 <template>
@@ -99,7 +114,7 @@ const r_mapping = [
     {{ $t('step1') }}
   </div>
   <div>
-    {{ $t('step1_detail', { first: int_data[0], encoding: first_digit_mapping[int_data[0]] }) }}
+    {{ $t('step1_detail', { first: first_digit, encoding }) }}
   </div>
   <div>
     {{ $t('step2') }}
@@ -108,22 +123,22 @@ const r_mapping = [
     {{ $t('l_code') }}
   </div>
   <div>
-    <Code v-for="i in Array(10).keys()" style="margin-left: 20px" :code="l_mapping[i]" :text="i.toString()"
-      :padding_left="true" :padding_right="true" />
+    <Code v-for="i in Array(10).keys()" style="margin-left: 20px" :code="l_mapping[i]!"
+      :text="i.toString()" :padding_left="true" :padding_right="true" />
   </div>
   <div>
     {{ $t('g_code') }}
   </div>
   <div>
-    <Code v-for="i in Array(10).keys()" style="margin-left: 20px" :code="g_mapping[i]" :text="i.toString()"
-      :padding_left="true" :padding_right="true" />
+    <Code v-for="i in Array(10).keys()" style="margin-left: 20px" :code="g_mapping[i]!"
+      :text="i.toString()" :padding_left="true" :padding_right="true" />
   </div>
   <div>
     {{ $t('r_code') }}
   </div>
   <div>
-    <Code v-for="i in Array(10).keys()" style="margin-left: 20px" :code="r_mapping[i]" :text="i.toString()"
-      :padding_left="true" :padding_right="true" />
+    <Code v-for="i in Array(10).keys()" style="margin-left: 20px" :code="r_mapping[i]!"
+      :text="i.toString()" :padding_left="true" :padding_right="true" />
   </div>
   <div>
     {{ $t('code_desc') }}
@@ -132,22 +147,17 @@ const r_mapping = [
     {{ $t('result') }}
   </div>
   <div>
-    <Code v-for="i in Array(12).keys()"
-      :code="first_digit_mapping[int_data[0]][i] === 'L' ? l_mapping[int_data[i + 1]] : (first_digit_mapping[int_data[0]][i] === 'G' ? g_mapping[int_data[i + 1]] : r_mapping[int_data[i + 1]])"
-      :text="int_data[i + 1].toString() + first_digit_mapping[int_data[0]][i]" :padding_left="true" :padding_right="true" />
+    <Code v-for="i in Array(12).keys()" :code="code_at(i)" :text="text_at(i)" :padding_left="true"
+      :padding_right="true" />
   </div>
   <div>
     {{ $t('step3') }}
   </div>
   <div>
     <Code code="101" text="S" height="180" :padding_left="true" />
-    <Code v-for="i in [0, 1, 2, 3, 4, 5]"
-      :code="first_digit_mapping[int_data[0]][i] === 'L' ? l_mapping[int_data[i + 1]] : (first_digit_mapping[int_data[0]][i] === 'G' ? g_mapping[int_data[i + 1]] : r_mapping[int_data[i + 1]])"
-      :text="int_data[i + 1].toString() + first_digit_mapping[int_data[0]][i]" />
+    <Code v-for="i in [0, 1, 2, 3, 4, 5]" :code="code_at(i)" :text="text_at(i)" />
     <Code code="01010" text="C" height="180" />
-    <Code v-for="i in [6, 7, 8, 9, 10, 11]"
-      :code="first_digit_mapping[int_data[0]][i] === 'L' ? l_mapping[int_data[i + 1]] : (first_digit_mapping[int_data[0]][i] === 'G' ? g_mapping[int_data[i + 1]] : r_mapping[int_data[i + 1]])"
-      :text="int_data[i + 1].toString() + first_digit_mapping[int_data[0]][i]" />
+    <Code v-for="i in [6, 7, 8, 9, 10, 11]" :code="code_at(i)" :text="text_at(i)" />
     <Code code="101" text="E" height="180" :padding_right="true" />
   </div>
   <div>
