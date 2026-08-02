@@ -163,4 +163,7 @@ function text_at(i: number): string {
   <div>
     {{ $t('profit') }}
   </div>
+  <footer>
+    <a href="https://github.com/jiegec/barcode">{{ $t('source') }}</a>
+  </footer>
 </template>

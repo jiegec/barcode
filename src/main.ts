@@ -21,6 +21,7 @@ const i18n = createI18n({
       code_desc: 'G-code and R-code are mirrored. L-code and R-code are complement.',
       result: 'Result:',
       profit: 'Profit!',
+      source: 'View source code',
     },
     zh: {
       language: '切换语言：',
@@ -37,6 +38,7 @@ const i18n = createI18n({
       code_desc: 'G 编码和 R 编码是镜像的关系。L 编码和 R 编码是互补的关系。',
       result: '结果：',
       profit: '成功！',
+      source: '查看源代码',
     }
   }
 });
